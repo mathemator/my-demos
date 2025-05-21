@@ -17,11 +17,12 @@ val compileNative by tasks.registering(Exec::class) {
     doFirst {
         nativeBuildDir.mkdirs()
     }
+    val javaHome = System.getenv("JAVA_HOME") ?: "${System.getProperty("user.home")}/.sdkman/candidates/java/current"
 
     commandLine(
         "gcc",
-        "-I", System.getenv("JAVA_HOME") + "/include",
-        "-I", System.getenv("JAVA_HOME") + "/include/linux",
+        "-I", "$javaHome/include",
+        "-I", "$javaHome/include/linux",
         "-shared", "-fPIC",
         "-o", File(nativeBuildDir, "libnative_example.so").absolutePath,
         File(nativeSrcDir, "native_example.c").absolutePath
@@ -51,4 +52,18 @@ tasks.named<JavaExec>("run") {
     doFirst {
         jvmArgs("-Djava.library.path=${nativeLibOutputDir.absolutePath}")
     }
+}
+
+tasks.withType<JavaCompile>().configureEach {
+    options.compilerArgs.add("--enable-preview")
+    sourceCompatibility = "24"
+    targetCompatibility = "24"
+}
+
+tasks.withType<Test>().configureEach {
+    jvmArgs("--enable-preview")
+}
+
+tasks.named<JavaExec>("run") {
+    jvmArgs("--enable-preview")
 }
