@@ -46,13 +46,9 @@ export default function CaseListPage() {
 
   const handleSubmit = async () => {
     try {
-      const response = await sendRequest({ memberId, esiaId, traceId });
-      if (response.ok) {
-        setStep1Status("success");
-        await handleUpdate(); // обновляем таблицу
-      } else {
-        setStep1Status("error");
-      }
+      await sendRequest({ memberId, esiaId, traceId });
+      setStep1Status("success");
+      await handleUpdate(); // обновляем таблицу
     } catch (err) {
       console.error("Ошибка при отправке:", err);
       setStep1Status("error");
