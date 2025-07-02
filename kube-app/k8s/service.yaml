@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kube-app-service
+spec:
+  selector:
+    app: kube-app       # выбирает все поды с таким label
+  ports:
+    - protocol: TCP
+      port: 80          # внешний порт
+      targetPort: 8080  # порт контейнера
+  type: NodePort        # доступ извне через IP/порт ноды
