@@ -5,7 +5,7 @@ import java.lang.invoke.MethodHandle;
 
 
 public class PanamaExample {
-    public static void main(String[] args) throws Throwable {
+    public static void main(String[] args) throws Throwable {.
         try (Arena arena = Arena.ofConfined()) {
             Linker linker = Linker.nativeLinker();
 
