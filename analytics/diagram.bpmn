@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="sid-38422fae-e03e-43a3-bef4-bd33b32041b2" targetNamespace="http://bpmn.io/bpmn" exporter="bpmn-js (https://demo.bpmn.io)" exporterVersion="18.6.1">
+  <collaboration id="Collaboration_1lfmjrp">
+    <participant id="Participant_0pi955w" name="Процесс записи на курс" processRef="Process_1" />
+    <participant id="Participant_0l2093a" name="Пользователь" />
+    <participant id="Participant_1h85444" name="Руководитель/Согласующий" />
+    <messageFlow id="Flow_19c5jcl" sourceRef="Participant_0l2093a" targetRef="Task_1hcentk" />
+    <messageFlow id="Flow_141az4j" sourceRef="Participant_1h85444" targetRef="Activity_0vfwwrz" />
+  </collaboration>
+  <process id="Process_1" isExecutable="false">
+    <task id="Task_1hcentk" name="Подача заявки на сайте">
+      <incoming>SequenceFlow_0h21x7r</incoming>
+      <outgoing>Flow_11yrb59</outgoing>
+    </task>
+    <exclusiveGateway id="ExclusiveGateway_15hu1pt" name="заявка согласована?">
+      <incoming>Flow_0v5t4j6</incoming>
+      <outgoing>Flow_0g5jgm9</outgoing>
+      <outgoing>Flow_10pfdtl</outgoing>
+    </exclusiveGateway>
+    <task id="Activity_0vfwwrz" name="Согласование заявки руководителем">
+      <incoming>Flow_0okk36y</incoming>
+      <outgoing>Flow_0v5t4j6</outgoing>
+    </task>
+    <exclusiveGateway id="Gateway_1vdtwi5" name="места есть?">
+      <incoming>Flow_11yrb59</incoming>
+      <outgoing>Flow_0okk36y</outgoing>
+      <outgoing>Flow_1t8rhx7</outgoing>
+    </exclusiveGateway>
+    <startEvent id="StartEvent_1y45yut" name="Пользователь увидел объявление/зашел на сайт и подал заявку">
+      <outgoing>SequenceFlow_0h21x7r</outgoing>
+    </startEvent>
+    <endEvent id="Event_0iczs9u" name="Положительный ответ на почту">
+      <incoming>Flow_10pfdtl</incoming>
+      <messageEventDefinition id="MessageEventDefinition_0zvv5th" />
+    </endEvent>
+    <endEvent id="Event_0xa3idt" name="Отрицательный ответ и рекомендации на почту">
+      <incoming>Flow_1t8rhx7</incoming>
+      <incoming>Flow_0g5jgm9</incoming>
+      <messageEventDefinition id="MessageEventDefinition_1gebxpz" />
+    </endEvent>
+    <sequenceFlow id="SequenceFlow_0h21x7r" sourceRef="StartEvent_1y45yut" targetRef="Task_1hcentk" />
+    <sequenceFlow id="Flow_11yrb59" sourceRef="Task_1hcentk" targetRef="Gateway_1vdtwi5" />
+    <sequenceFlow id="Flow_0v5t4j6" sourceRef="Activity_0vfwwrz" targetRef="ExclusiveGateway_15hu1pt" />
+    <sequenceFlow id="Flow_0g5jgm9" name="заявка отклонена" sourceRef="ExclusiveGateway_15hu1pt" targetRef="Event_0xa3idt" />
+    <sequenceFlow id="Flow_10pfdtl" sourceRef="ExclusiveGateway_15hu1pt" targetRef="Event_0iczs9u" />
+    <sequenceFlow id="Flow_0okk36y" name="места ещё есть" sourceRef="Gateway_1vdtwi5" targetRef="Activity_0vfwwrz" />
+    <sequenceFlow id="Flow_1t8rhx7" name="места закончились" sourceRef="Gateway_1vdtwi5" targetRef="Event_0xa3idt" />
+  </process>
+  <bpmndi:BPMNDiagram id="BpmnDiagram_1">
+    <bpmndi:BPMNPlane id="BpmnPlane_1" bpmnElement="Collaboration_1lfmjrp">
+      <bpmndi:BPMNShape id="Participant_0pi955w_di" bpmnElement="Participant_0pi955w" isHorizontal="true">
+        <omgdc:Bounds x="151" y="40" width="939" height="268" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_1hcentk_di" bpmnElement="Task_1hcentk">
+        <omgdc:Bounds x="340" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_15hu1pt_di" bpmnElement="ExclusiveGateway_15hu1pt" isMarkerVisible="true">
+        <omgdc:Bounds x="845" y="95" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="836" y="65" width="70" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0vfwwrz_di" bpmnElement="Activity_0vfwwrz">
+        <omgdc:Bounds x="700" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1vdtwi5_di" bpmnElement="Gateway_1vdtwi5" isMarkerVisible="true">
+        <omgdc:Bounds x="515" y="95" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="509" y="65" width="62" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1y45yut_di" bpmnElement="StartEvent_1y45yut">
+        <omgdc:Bounds x="222" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="198" y="145" width="85" height="66" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0iczs9u_di" bpmnElement="Event_0iczs9u">
+        <omgdc:Bounds x="1002" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="979" y="145" width="83" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0jl1mfj" bpmnElement="Event_0xa3idt">
+        <omgdc:Bounds x="1002" y="192" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="975" y="235" width="90" height="53" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0h21x7r_di" bpmnElement="SequenceFlow_0h21x7r">
+        <omgdi:waypoint x="258" y="120" />
+        <omgdi:waypoint x="340" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_11yrb59_di" bpmnElement="Flow_11yrb59">
+        <omgdi:waypoint x="440" y="120" />
+        <omgdi:waypoint x="515" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0g5jgm9_di" bpmnElement="Flow_0g5jgm9">
+        <omgdi:waypoint x="870" y="145" />
+        <omgdi:waypoint x="870" y="210" />
+        <omgdi:waypoint x="1002" y="210" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="901" y="176" width="53" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1t8rhx7_di" bpmnElement="Flow_1t8rhx7">
+        <omgdi:waypoint x="540" y="145" />
+        <omgdi:waypoint x="540" y="210" />
+        <omgdi:waypoint x="1000" y="210" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="672" y="176" width="64" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0v5t4j6_di" bpmnElement="Flow_0v5t4j6">
+        <omgdi:waypoint x="800" y="120" />
+        <omgdi:waypoint x="845" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0okk36y_di" bpmnElement="Flow_0okk36y">
+        <omgdi:waypoint x="565" y="120" />
+        <omgdi:waypoint x="700" y="120" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="593" y="102" width="80" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10pfdtl_di" bpmnElement="Flow_10pfdtl">
+        <omgdi:waypoint x="895" y="120" />
+        <omgdi:waypoint x="1002" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_17qnz2y" bpmnElement="Participant_1h85444" isHorizontal="true">
+        <omgdc:Bounds x="600" y="320" width="300" height="60" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_0l2093a_di" bpmnElement="Participant_0l2093a" isHorizontal="true">
+        <omgdc:Bounds x="180" y="320" width="300" height="60" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_19c5jcl_di" bpmnElement="Flow_19c5jcl">
+        <omgdi:waypoint x="390" y="320" />
+        <omgdi:waypoint x="390" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_141az4j_di" bpmnElement="Flow_141az4j">
+        <omgdi:waypoint x="750" y="320" />
+        <omgdi:waypoint x="750" y="160" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
